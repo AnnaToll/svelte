@@ -13,7 +13,8 @@
   "scripts": {
     "build": "react-scripts build",
     "start": "react-scripts start",
-    "test": "cypress run"
+    "test": "cypress run",
+    "unit-test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
