@@ -1,3 +1,5 @@
+import './wrappers.css';
+
 // Props:
 // headline = String, ex. "Hello world"
 // headlineTagName = String, ex. "h1"
@@ -21,7 +23,9 @@ const SectionWrapper = ({ headline, headlineTagName, children }) => {
 
     return (
         <div>
-            {createHeadlineElement()}
+            <div className='section-wrapper-headline-container'>
+                {createHeadlineElement()}
+            </div>
             { children }
         </div>
     )
