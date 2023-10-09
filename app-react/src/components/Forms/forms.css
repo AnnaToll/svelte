@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+label {
+    font-size: 17px;
+}
+
+input[type="text"], input[type="number"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 24px;
+    padding: 7px 10px;
+}
+
+input[type="submit"] {
+    border: none;
+    padding: 10px 16px;
+    margin-top: 23px;
+    border-radius: 2px;
+    background-color: rgb(43, 94, 79);
+    color: white;
+}
+
+.input-validation-container {
+    margin: 6px 0 8px 0;
+}
+
+.input-validation-container i {
+    margin-right: 8px;
+}
