@@ -1,8 +1,9 @@
 <script>
     import InputValidation from "../Forms/InputValidation.svelte";
-    import Status from "../lib/status/Status.svelte";
+    import Status from "../shared/status/Status.svelte";
     import { validateAndSetErrors, toSingleErrorArray } from '../Forms/utils/formsUtils'
     import transactions from "../stores/TransactionStore";
+    import { fetchPostJson, fetchGet } from '../../api/api'
 
     let errorMessages = []
     let successMessages = []
@@ -36,41 +37,34 @@
             return
         }
 
-        const res = await fetch('http://localhost:5000/transactions', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(transactionDetails)
-        })
-        const data = await res.json()
+        const postRes = await fetchPostJson('transactions', transactionDetails)
 
-        if (!res.ok) {
+        if (postRes.error) {
 
-            errorMessages = [data.error]
-
-        } else {
-
-            const accountId = transactionDetails.accountId.value
-            transactionDetails = JSON.parse(JSON.stringify(transactionInit))
-            errorMessages = []
-            successMessages = ['Amount has successfully been transferred.']
-
-            const resGet = await fetch(`http://localhost:5000/transactions/${accountId}`)
-            const dataGet = await resGet.json()
-
-            if (resGet.ok) {
-                
-                const sortedTransactions = [...dataGet.transactions].sort((a, b) => {
-                    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-                })
-
-                transactions.set({
-                    listAll: sortedTransactions, 
-                    currentBalance: dataGet.balance
-                })
-            }
+            errorMessages = [postRes.error]
+            return
         }
+
+        const accountId = transactionDetails.accountId.value
+        transactionDetails = JSON.parse(JSON.stringify(transactionInit))
+        errorMessages = []
+        successMessages = ['Amount has successfully been transferred.']
+
+        const allTransactions = await fetchGet(`transactions/${accountId}`)
+
+        if (allTransactions.error) {
+
+            return
+        }
+
+        const sortedTransactions = [...allTransactions.data.transactions].sort((a, b) => {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        })
+
+        transactions.set({
+            listAll: sortedTransactions, 
+            currentBalance: allTransactions.data.balance
+        })
     }
 
 </script>
