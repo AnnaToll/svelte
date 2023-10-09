@@ -22,7 +22,7 @@ const useFetch = (resInit) => {
         }
 
         try {
-            const res = await fetch(`${process.env.REACT_APP_SERVER_BASE_URL}${url}`, requestObject)
+            const res = await fetch(`http://localhost:5000${url}`, requestObject)
             const data = await res.json()
 
             if (!res.ok) {
