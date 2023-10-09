@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import TransactionForm from './components/Transactions/TransactionForm';
+import AllTransactionsList from './components/Transactions/AllTransactionsList';
+import AppProvider from './state/AppProvider';
+import SectionWrapper from './components/lib/wrappers/SectionWrapper';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppProvider>
+      <div className="App">
+          <aside>
+            <SectionWrapper headline="Submit new transaction" headlineTagName="h2">
+              <TransactionForm />
+            </SectionWrapper>
+          </aside>
+          <main>
+            <SectionWrapper headline="Transaction history" headlineTagName="h1">
+              <AllTransactionsList />
+            </SectionWrapper>
+          </main>
+      </div>
+    </AppProvider>
   );
 }
 
